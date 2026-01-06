@@ -9,22 +9,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
 
-import SplashCursor from "@/components/ui/splash-cursor";
-
 export default function Home() {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 sm:p-20 overflow-hidden bg-background selection:bg-foreground selection:text-background transition-colors duration-300">
-      <SplashCursor
-        SPLAT_RADIUS={0.05}
-        SPLAT_FORCE={4000}
-        DENSITY_DISSIPATION={5}
-      />
       {/* Hero Section */}
-      <section className="w-full max-w-6xl flex flex-col items-center justify-center min-h-[80vh] gap-10 text-center pointer-events-none relative">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
+      <section className="w-full max-w-6xl flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-10rem)] gap-10 text-center pointer-events-none relative">
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -35,9 +28,9 @@ export default function Home() {
             <Image
               src="/rdlogo.PNG"
               alt="Ryzq Digital Logo"
-              width={256}
-              height={256}
-              className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl dark:invert dark:brightness-0 dark:contrast-200"
+              width={630}
+              height={325}
+              className="w-48 sm:w-64 md:w-80 h-auto object-contain drop-shadow-2xl dark:invert dark:brightness-0 dark:contrast-200"
               priority
             />
           </motion.div>
@@ -106,7 +99,7 @@ export default function Home() {
         </div>
 
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-400 opacity-60"
+          className="absolute bottom-16 sm:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-400 opacity-60"
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
