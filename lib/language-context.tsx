@@ -12,6 +12,26 @@ type Translations = {
         cta: string;
         scroll: string;
     };
+    trust: {
+        projects: string;
+        response: string;
+        location: string;
+    };
+    projects: {
+        title: string;
+        subtitle: string;
+        viewProject: string;
+        inProgress: string;
+        delivered: string;
+        items: {
+            name: string;
+            desc: string;
+            tags: string[];
+            status: "delivered" | "in-progress";
+            results?: string;
+            demoUrl?: string;
+        }[];
+    };
     services: {
         title: string;
         keywords: string | string[];
@@ -62,6 +82,58 @@ const translations: Record<Language, Translations> = {
             description: "Nous transformons vos idées en expériences digitales d'exception.",
             cta: "Démarrer un projet",
             scroll: "SCROLL",
+        },
+        trust: {
+            projects: "5+ projets livrés",
+            response: "Réponse sous 24h",
+            location: "Basé en Belgique",
+        },
+        projects: {
+            title: "RÉALISATIONS",
+            subtitle: "Des projets qui génèrent des résultats",
+            viewProject: "Voir le projet",
+            inProgress: "En cours",
+            delivered: "Livré",
+            items: [
+                {
+                    name: "COSTI ELEC",
+                    desc: "Site vitrine optimisé SEO pour un électricien belge. Design premium focalisé conversion.",
+                    tags: ["Web", "SEO", "Conversion"],
+                    status: "delivered",
+                    results: "+180% trafic organique",
+                    demoUrl: "https://costi.vercel.app",
+                },
+                {
+                    name: "Carivo",
+                    desc: "Marketplace automobile européenne avec recherche IA. Simplifiez votre recherche de véhicule.",
+                    tags: ["App", "IA", "Marketplace"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Mon Mariage Oriental",
+                    desc: "App pour futurs mariés et prestataires. Marketplace de robes et services.",
+                    tags: ["App", "Marketplace", "Wedding"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Loveline",
+                    desc: "App couple: timeline de souvenirs, journal partagé, objectifs et gestion d'humeur.",
+                    tags: ["App", "Lifestyle", "Couple"],
+                    status: "in-progress",
+                },
+                {
+                    name: "RentHub",
+                    desc: "Plateforme regroupant les petits loueurs auto. Communication et photos avant/après.",
+                    tags: ["App", "Marketplace", "Auto"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Familink",
+                    desc: "App famille: courses, tâches, groupchat, planning voyage et souvenirs partagés.",
+                    tags: ["App", "Family", "Lifestyle"],
+                    status: "in-progress",
+                },
+            ],
         },
         services: {
             title: "EXPERTISE",
@@ -115,6 +187,58 @@ const translations: Record<Language, Translations> = {
             description: "We transform your ideas into exceptional digital experiences.",
             cta: "Start a project",
             scroll: "SCROLL",
+        },
+        trust: {
+            projects: "5+ projects delivered",
+            response: "Response within 24h",
+            location: "Based in Belgium",
+        },
+        projects: {
+            title: "PORTFOLIO",
+            subtitle: "Projects that drive results",
+            viewProject: "View project",
+            inProgress: "In Progress",
+            delivered: "Delivered",
+            items: [
+                {
+                    name: "COSTI ELEC",
+                    desc: "SEO-optimized showcase website for a Belgian electrician. Premium design focused on conversion.",
+                    tags: ["Web", "SEO", "Conversion"],
+                    status: "delivered",
+                    results: "+180% organic traffic",
+                    demoUrl: "https://costi.vercel.app",
+                },
+                {
+                    name: "Carivo",
+                    desc: "European car marketplace with AI-powered search. Simplify your vehicle search.",
+                    tags: ["App", "AI", "Marketplace"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Mon Mariage Oriental",
+                    desc: "App for future brides and vendors. Dress and services marketplace.",
+                    tags: ["App", "Marketplace", "Wedding"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Loveline",
+                    desc: "Couple app: memory timeline, shared journal, goals and mood tracking.",
+                    tags: ["App", "Lifestyle", "Couple"],
+                    status: "in-progress",
+                },
+                {
+                    name: "RentHub",
+                    desc: "Platform connecting small car rental agencies. Communication and before/after photos.",
+                    tags: ["App", "Marketplace", "Auto"],
+                    status: "in-progress",
+                },
+                {
+                    name: "Familink",
+                    desc: "Family app: groceries, chores, group chat, travel planning and shared memories.",
+                    tags: ["App", "Family", "Lifestyle"],
+                    status: "in-progress",
+                },
+            ],
         },
         services: {
             title: "EXPERTISE",
