@@ -39,7 +39,7 @@ export default function Home() {
             whileHover={{ scale: 1.05, rotate: 2 }}
           >
             <Image
-              src="/logo.PNG"
+              src="/logo.png"
               alt="Ryzq Digital Logo"
               width={630}
               height={325}
@@ -172,6 +172,7 @@ export default function Home() {
             };
             const isInProgress = project.status === "in-progress";
             const isFeatured = i === 0;
+            const isCompact = i === 1 || i === 2;
 
             return (
               <motion.div
@@ -181,25 +182,27 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.4 }}
                 className={`group overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-xl transition-all duration-300
-                  ${isFeatured ? 'md:col-span-2' : ''}`}
+                  ${isFeatured ? 'md:col-span-2 md:row-span-2' : ''}`}
               >
                 {/* Mobile: Horizontal layout | Desktop: Vertical layout */}
                 <div className={`flex h-full ${isFeatured ? 'flex-col' : 'flex-row md:flex-col'}`}>
                   {/* Image Section */}
                   <div className={`relative overflow-hidden flex-shrink-0
                     ${isFeatured
-                      ? 'w-full aspect-[21/9]'
-                      : 'w-24 h-24 md:w-full md:h-auto md:aspect-[4/3]'
+                      ? 'w-full aspect-[2.65/1] sm:aspect-[2.1/1]'
+                      : isCompact
+                        ? 'w-28 self-stretch md:w-full md:h-auto md:aspect-[2.35/1]'
+                        : 'w-28 self-stretch md:w-full md:h-auto md:aspect-[3/2]'
                     }`}
                   >
                     {/* Blurred Background Layer */}
-                    <div className={`absolute inset-0 transition-all duration-500 ${isInProgress ? 'blur-[4px] scale-110' : ''}`}>
+                    <div className={`absolute inset-0 transition-all duration-500 ${isInProgress ? 'blur-[2px] scale-110' : ''}`}>
                       <Image
                         src={images[project.name]}
                         alt={project.name}
                         fill
                         priority={isFeatured}
-                        className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                        className={`transition-transform duration-500 group-hover:scale-110 ${isFeatured ? 'object-cover object-center' : 'object-cover object-top'}`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     </div>
@@ -214,9 +217,11 @@ export default function Home() {
                         )}
                         <div className="flex-1" />
                         {isInProgress && (
-                          <div className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-500 text-white text-[8px] md:text-[10px] font-bold uppercase tracking-wide rounded-full flex items-center gap-1 shadow-lg">
+                          <div className="px-1.5 py-0.5 md:px-2.5 md:py-1 bg-amber-500/90 text-white rounded-full flex items-center gap-1 shadow-lg backdrop-blur-sm">
                             <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                            {t.projects.inProgress}
+                            <span className="text-[7px] md:text-[10px] font-bold uppercase tracking-wide">
+                              {t.projects.inProgress}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -225,13 +230,13 @@ export default function Home() {
 
                   {/* Content Section */}
                   <div className={`flex-1 flex flex-col justify-between
-                    ${isFeatured ? 'p-4 md:p-5' : 'p-3 md:p-4'}`}
+                    ${isFeatured ? 'p-3 sm:p-4 md:p-5' : isCompact ? 'p-2 md:p-3' : 'p-3 md:p-4'}`}
                   >
                     <div className="space-y-1.5 md:space-y-2">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1.5 md:gap-2">
                           <h3 className={`font-bold text-foreground
-                            ${isFeatured ? 'text-lg md:text-xl' : 'text-sm md:text-base'}`}
+                            ${isFeatured ? 'text-lg md:text-xl' : isCompact ? 'text-sm' : 'text-sm md:text-base'}`}
                           >
                             {project.name}
                           </h3>
@@ -243,15 +248,15 @@ export default function Home() {
                           <Link
                             href={project.demoUrl}
                             target="_blank"
-                            className="text-[10px] md:text-xs text-indigo-500 font-semibold hover:text-indigo-600 flex items-center gap-0.5 shrink-0"
+                            className="px-3 py-1 bg-foreground text-background text-[10px] md:text-xs font-bold rounded-full flex items-center gap-1.5 transition-transform hover:scale-105 shadow-sm"
                           >
-                            <span className="hidden md:inline">Voir</span>
+                            <span>Demo</span>
                             <ExternalLink className="w-3 h-3 md:w-3.5 md:h-3.5" />
                           </Link>
                         )}
                       </div>
                       <p className={`text-foreground/60 leading-relaxed
-                        ${isFeatured ? 'text-sm line-clamp-2 max-w-xl' : 'text-[11px] md:text-xs line-clamp-2'}`}
+                        ${isFeatured ? 'text-sm line-clamp-2 max-w-xl' : isCompact ? 'text-[10px] md:text-[11px] line-clamp-2' : 'text-[11px] md:text-xs line-clamp-2'}`}
                       >
                         {project.desc}
                       </p>
