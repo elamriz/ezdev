@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedText } from "@/components/ui/animated-text";
 import { ShinyButton } from "@/components/ui/shiny-button";
-import { ArrowRight, Mail, MessageCircle, Plus, Minus, CheckCircle, Clock, MapPin, ExternalLink } from "lucide-react";
+import { HeroGeometric } from "@/components/ui/shadcn-io/shape-landing-hero";
+import { ArrowRight, Mail, MessageCircle, Plus, Minus, CheckCircle, Clock, MapPin, ExternalLink, Globe, Smartphone, Palette, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
@@ -12,116 +13,120 @@ import { useLanguage } from "@/lib/language-context";
 export default function Home() {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollIndicator(window.scrollY < 100);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 sm:p-20 overflow-hidden bg-background selection:bg-foreground selection:text-background transition-colors duration-300">
       {/* Hero Section */}
-      <section className="w-full max-w-6xl flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-10rem)] gap-8 text-center pointer-events-none relative">
-        <div className="flex flex-col items-center gap-6">
+      <HeroGeometric
+        title1="RYZQ"
+        title2="DIGITAL"
+        description={t.hero.description}
+        className="!p-0"
+        logo={
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             whileHover={{ scale: 1.05, rotate: 2 }}
-            className="pointer-events-auto shrink-0 cursor-pointer"
           >
             <Image
-              src="/rdlogo.PNG"
+              src="/logo.PNG"
               alt="Ryzq Digital Logo"
               width={630}
               height={325}
-              className="w-36 sm:w-48 md:w-56 h-auto object-contain drop-shadow-2xl dark:invert dark:brightness-0 dark:contrast-200"
+              className="w-28 sm:w-36 md:w-44 h-auto object-contain mx-auto drop-shadow-2xl dark:invert dark:brightness-0 dark:contrast-200"
               priority
             />
           </motion.div>
+        }
+      >
+        <div className="flex flex-col items-center gap-4 sm:gap-6 lg:gap-8">
+          {/* Trust Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 lg:gap-8"
+          >
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm lg:text-base text-foreground/60">
+              <CheckCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-emerald-500" />
+              <span>{t.trust.projects}</span>
+            </div>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm lg:text-base text-foreground/60">
+              <Clock className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-indigo-500" />
+              <span>{t.trust.response}</span>
+            </div>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm lg:text-base text-foreground/60">
+              <MapPin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-rose-500" />
+              <span>{t.trust.location}</span>
+            </div>
+          </motion.div>
 
-          <div className="flex flex-col items-center space-y-1">
-            <AnimatedText
-              text="RYZQ"
-              className="text-6xl sm:text-7xl md:text-8xl font-black tracking-[-0.05em] text-foreground pointer-events-auto select-none leading-[0.85]"
-              animation={{
-                hidden: { opacity: 0, y: 30 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { type: "spring", damping: 25, stiffness: 120, delay: 0.2 }
-                },
-              }}
-            />
-            <AnimatedText
-              text="DIGITAL"
-              className="text-xl sm:text-3xl md:text-4xl font-extralight tracking-[0.15em] text-neutral-500 dark:text-neutral-400 pointer-events-auto leading-none uppercase"
-              animation={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.6, ease: "easeOut", delay: 0.5 }
-                },
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-6 pointer-events-auto z-10 max-w-xl px-4">
-          <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
-            {t.hero.description}
-          </p>
-
+          {/* CTA Button */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             className="inline-block"
           >
             <ShinyButton onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-              <span className="flex items-center gap-3 text-base sm:text-lg">
+              <span className="flex items-center gap-2 sm:gap-3 text-sm sm:text-base lg:text-lg">
                 {t.hero.cta}
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </span>
             </ShinyButton>
           </motion.div>
 
-          {/* Trust Badges */}
+          {/* Services with Icons */}
+          <div className="flex items-center justify-center gap-3 sm:gap-6 lg:gap-8 text-[11px] sm:text-sm lg:text-base text-foreground/50 font-medium tracking-wider">
+            <span className="flex items-center gap-1 sm:gap-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">
+              <Globe className="w-3 h-3 sm:w-4 sm:h-4" />
+              WEB
+            </span>
+            <span className="flex items-center gap-1 sm:gap-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">
+              <Smartphone className="w-3 h-3 sm:w-4 sm:h-4" />
+              APPS
+            </span>
+            <span className="flex items-center gap-1 sm:gap-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">
+              <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
+              UI/UX
+            </span>
+            <span className="flex items-center gap-1 sm:gap-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">
+              <Search className="w-3 h-3 sm:w-4 sm:h-4" />
+              SEO
+            </span>
+          </div>
+        </div>
+      </HeroGeometric>
+
+      {/* Scroll Indicator - Fixed at bottom, hidden on scroll */}
+      <AnimatePresence>
+        {showScrollIndicator && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-4"
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-8 left-0 right-0 flex-col items-center gap-2 text-foreground/40 z-30 pointer-events-none hidden min-[500px]:flex"
           >
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>{t.trust.projects}</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
-              <Clock className="w-4 h-4 text-indigo-500" />
-              <span>{t.trust.response}</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
-              <MapPin className="w-4 h-4 text-rose-500" />
-              <span>{t.trust.location}</span>
-            </div>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-2"
+            >
+              <span className="text-xs uppercase tracking-[0.3em] font-medium">{t.hero.scroll}</span>
+              <ArrowRight className="w-4 h-4 rotate-90" />
+            </motion.div>
           </motion.div>
-
-          <div className="flex items-center justify-center gap-3 text-xs sm:text-sm text-neutral-400 dark:text-neutral-500 font-medium tracking-wider pt-2">
-            <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">WEB</span>
-            <span className="text-neutral-300 dark:text-neutral-600">•</span>
-            <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">APPS</span>
-            <span className="text-neutral-300 dark:text-neutral-600">•</span>
-            <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">UI/UX</span>
-            <span className="text-neutral-300 dark:text-neutral-600">•</span>
-            <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-default">SEO</span>
-          </div>
-        </div>
-
-        <motion.div
-          className="absolute bottom-12 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-400 opacity-60"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <span className="text-xs uppercase tracking-[0.3em] font-medium">{t.hero.scroll}</span>
-          <ArrowRight className="w-4 h-4 rotate-90" />
-        </motion.div>
-      </section>
+        )}
+      </AnimatePresence>
 
       {/* Services Section */}
       <section id="services" className="w-full max-w-6xl py-32 flex flex-col gap-24">
@@ -146,16 +151,16 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="w-full max-w-6xl py-32 flex flex-col gap-16">
+      <section id="projects" className="w-full max-w-6xl py-24 sm:py-32 flex flex-col gap-12 sm:gap-16">
         <div className="text-left space-y-2">
           <h2 className="text-sm font-bold tracking-widest uppercase text-neutral-400">{t.projects.title}</h2>
           <AnimatedText
             text={t.projects.subtitle}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1]"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-[1.1]"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-2 md:gap-4 lg:gap-8 auto-rows-[minmax(100px,auto)]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           {t.projects.items.map((project, i) => {
             const images: Record<string, string> = {
               "COSTI ELEC": "/projects/costi-real.png",
@@ -171,81 +176,98 @@ export default function Home() {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 transition-all duration-300
-                  ${isFeatured
-                    ? 'col-span-3 md:col-span-2 md:row-span-2'
-                    : 'col-span-1 hover:border-neutral-900 dark:hover:border-white'
-                  }`}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className={`group overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-xl transition-all duration-300
+                  ${isFeatured ? 'md:col-span-2' : ''}`}
               >
-                {/* Project Image */}
-                <div className={`relative w-full h-full overflow-hidden ${isFeatured ? 'min-h-[250px] sm:min-h-[400px]' : 'aspect-square sm:aspect-[4/3]'} ${isInProgress ? 'blur-[8px]' : ''}`}>
-                  <Image
-                    src={images[project.name]}
-                    alt={project.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                </div>
+                {/* Mobile: Horizontal layout | Desktop: Vertical layout */}
+                <div className={`flex h-full ${isFeatured ? 'flex-col' : 'flex-row md:flex-col'}`}>
+                  {/* Image Section */}
+                  <div className={`relative overflow-hidden flex-shrink-0
+                    ${isFeatured
+                      ? 'w-full aspect-[21/9]'
+                      : 'w-24 h-24 md:w-full md:h-auto md:aspect-[4/3]'
+                    }`}
+                  >
+                    {/* Blurred Background Layer */}
+                    <div className={`absolute inset-0 transition-all duration-500 ${isInProgress ? 'blur-[4px] scale-110' : ''}`}>
+                      <Image
+                        src={images[project.name]}
+                        alt={project.name}
+                        fill
+                        priority={isFeatured}
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    </div>
 
-                {/* In Progress Banner */}
-                {isInProgress && (
-                  <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 px-1.5 py-0.5 sm:px-3 sm:py-1.5 bg-amber-500/90 text-white text-[8px] sm:text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1 sm:gap-1.5">
-                    <span className="w-1 h-1 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" />
-                    {t.projects.inProgress}
+                    {/* Status Badges - Always crisp */}
+                    <div className="absolute inset-0 p-2 md:p-3 pointer-events-none">
+                      <div className="flex justify-between items-start w-full">
+                        {project.results && isFeatured && (
+                          <div className="px-2.5 py-1 bg-emerald-500 text-white text-[10px] font-bold rounded-full shadow-lg backdrop-blur-sm bg-opacity-90">
+                            {project.results}
+                          </div>
+                        )}
+                        <div className="flex-1" />
+                        {isInProgress && (
+                          <div className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-500 text-white text-[8px] md:text-[10px] font-bold uppercase tracking-wide rounded-full flex items-center gap-1 shadow-lg">
+                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                            {t.projects.inProgress}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
 
-                {/* Results Badge */}
-                {project.results && (
-                  <div className="absolute top-2 left-2 sm:top-4 left-4 z-10 px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-500 text-white text-[10px] sm:text-sm font-bold rounded-full shadow-lg">
-                    {project.results}
-                  </div>
-                )}
+                  {/* Content Section */}
+                  <div className={`flex-1 flex flex-col justify-between
+                    ${isFeatured ? 'p-4 md:p-5' : 'p-3 md:p-4'}`}
+                  >
+                    <div className="space-y-1.5 md:space-y-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5 md:gap-2">
+                          <h3 className={`font-bold text-foreground
+                            ${isFeatured ? 'text-lg md:text-xl' : 'text-sm md:text-base'}`}
+                          >
+                            {project.name}
+                          </h3>
+                          {!isInProgress && (
+                            <CheckCircle className={`text-emerald-500 ${isFeatured ? 'w-4 h-4' : 'w-3.5 h-3.5'}`} />
+                          )}
+                        </div>
+                        {project.demoUrl && (
+                          <Link
+                            href={project.demoUrl}
+                            target="_blank"
+                            className="text-[10px] md:text-xs text-indigo-500 font-semibold hover:text-indigo-600 flex items-center gap-0.5 shrink-0"
+                          >
+                            <span className="hidden md:inline">Voir</span>
+                            <ExternalLink className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                          </Link>
+                        )}
+                      </div>
+                      <p className={`text-foreground/60 leading-relaxed
+                        ${isFeatured ? 'text-sm line-clamp-2 max-w-xl' : 'text-[11px] md:text-xs line-clamp-2'}`}
+                      >
+                        {project.desc}
+                      </p>
+                    </div>
 
-                {/* Content */}
-                <div className={`absolute bottom-0 left-0 right-0 p-2 sm:p-6 space-y-1 sm:space-y-3 ${isFeatured ? 'bg-gradient-to-t from-black/90 to-transparent pt-12 sm:pt-24' : ''}`}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <h3 className={`${isFeatured ? 'text-lg sm:text-3xl' : 'text-[10px] sm:text-xl'} font-bold text-white truncate`}>{project.name}</h3>
-                    {!isInProgress && (
-                      <span className={`${isFeatured ? 'text-xs sm:text-base' : 'text-[8px] sm:text-xs'} text-emerald-400 font-medium flex items-center gap-0.5 sm:gap-1`}>
-                        <CheckCircle className={`${isFeatured ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-2.5 h-2.5 sm:w-3.5 sm:h-3.5'}`} />
-                        {t.projects.delivered}
-                      </span>
-                    )}
-                  </div>
-
-                  {isFeatured && (
-                    <p className="text-xs sm:text-lg text-neutral-200 leading-relaxed max-w-xl hidden sm:block">
-                      {project.desc}
-                    </p>
-                  )}
-
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                    <div className={`hidden sm:flex flex-wrap gap-2 ${isFeatured ? 'mt-2' : ''}`}>
-                      {project.tags.map((tag, j) => (
+                    <div className={`flex flex-wrap gap-1.5 ${isFeatured ? 'mt-4' : 'mt-2 md:mt-3'}`}>
+                      {project.tags.slice(0, isFeatured ? 4 : 3).map((tag, j) => (
                         <span
                           key={j}
-                          className={`px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full ${isFeatured ? 'bg-white/20 text-white backdrop-blur-md' : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300'}`}
+                          className={`font-medium rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400
+                            ${isFeatured ? 'px-2.5 py-1 text-[10px]' : 'px-2 py-0.5 text-[9px]'}`}
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                    {project.demoUrl && (
-                      <Link
-                        href={project.demoUrl}
-                        target="_blank"
-                        className={`flex items-center gap-1 ${isFeatured ? 'text-sm sm:text-base bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-neutral-200' : 'text-[8px] sm:text-sm text-indigo-400 font-bold hover:underline'} transition-all ml-auto`}
-                      >
-                        Demo
-                        <ExternalLink className={`${isFeatured ? 'w-3 h-3 sm:w-4 sm:h-4' : 'w-2 h-2 sm:w-4 sm:h-4'}`} />
-                      </Link>
-                    )}
                   </div>
                 </div>
               </motion.div>
@@ -316,7 +338,7 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row gap-6 w-full max-w-md justify-center">
           <Link
-            href="https://wa.me/32498465551"
+            href="https://wa.me/32470886024"
             target="_blank"
             className="flex-1 group flex items-center justify-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-full font-medium transition-transform hover:scale-105"
           >
@@ -361,7 +383,7 @@ export default function Home() {
         className="fixed bottom-6 right-6 z-50 pointer-events-auto"
       >
         <Link
-          href="https://wa.me/32498465551"
+          href="https://wa.me/32470886024"
           target="_blank"
           className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-full shadow-[0_8px_30px_rgb(37,211,102,0.4)] hover:shadow-[0_8px_30px_rgb(37,211,102,0.6)] hover:scale-110 transition-all duration-300 group"
         >
@@ -369,6 +391,6 @@ export default function Home() {
           <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 z-10" />
         </Link>
       </motion.div>
-    </main>
+    </main >
   );
 }
