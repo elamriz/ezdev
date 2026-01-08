@@ -352,7 +352,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="mailto:contact@ryzq.digital"
+            href="mailto:hello@ryzq.dev"
             className="flex-1 group flex items-center justify-center gap-3 px-8 py-4 bg-black dark:bg-neutral-950 text-white border border-transparent dark:border-white/10 rounded-full font-medium transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(99,102,241,0.2)] dark:hover:border-white/20"
           >
             <Mail className="w-5 h-5" />
