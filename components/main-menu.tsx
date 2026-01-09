@@ -26,7 +26,10 @@ export function MainMenu() {
         { label: "Email", link: "mailto:contact@ryzq.digital" },
     ];
 
+    // When menu is closed: white in dark mode, black in light mode
     const buttonColor = mounted && theme === 'dark' ? '#ffffff' : '#000000';
+    // When menu is open: always black since the panel background is white
+    const openButtonColor = '#000000';
 
     if (!mounted) return null;
 
@@ -38,7 +41,7 @@ export function MainMenu() {
             socialItems={socialItems}
             logoUrl=""
             menuButtonColor={buttonColor}
-            openMenuButtonColor="#000000"
+            openMenuButtonColor={openButtonColor}
             accentColor="#6366f1"
             colors={["#e0e7ff", "#c7d2fe", "#a5b4fc", "#818cf8"]} // Indigo shades for prelayers
         />

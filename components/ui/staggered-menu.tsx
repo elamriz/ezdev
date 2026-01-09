@@ -287,12 +287,21 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
   React.useEffect(() => {
     if (toggleBtnRef.current) {
-      if (changeMenuColorOnOpen) {
-        const targetColor = openRef.current ? openMenuButtonColor : menuButtonColor;
-        gsap.set(toggleBtnRef.current, { color: targetColor });
-      } else {
-        gsap.set(toggleBtnRef.current, { color: menuButtonColor });
-      }
+      // Kill any existing color animation to prevent race conditions
+      colorTweenRef.current?.kill();
+      colorTweenRef.current = null;
+
+      // Always update color based on current open state when props change
+      const isOpen = openRef.current;
+      const targetColor = (changeMenuColorOnOpen && isOpen) ? openMenuButtonColor : menuButtonColor;
+
+      // Use overwrite and no delay to ensure this takes precedence
+      gsap.to(toggleBtnRef.current, {
+        color: targetColor,
+        duration: 0.15,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
     }
   }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor]);
 
@@ -324,7 +333,12 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     textCycleAnimRef.current = gsap.to(inner, {
       yPercent: -finalShift,
       duration: 0.5 + lineCount * 0.07,
-      ease: 'power4.out'
+      ease: 'power4.out',
+      onComplete: () => {
+        // After animation completes, set stable final state
+        setTextLines([targetLabel]);
+        gsap.set(inner, { yPercent: 0 });
+      }
     });
   }, []);
 
