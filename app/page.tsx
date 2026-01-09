@@ -202,7 +202,7 @@ export default function Home() {
                         alt={project.name}
                         fill
                         priority={isFeatured}
-                        className={`transition-transform duration-500 group-hover:scale-110 ${isFeatured ? 'object-cover object-center' : 'object-cover object-top'}`}
+                        className={`transition-transform duration-500 group-hover:scale-110 ${isFeatured ? 'object-cover object-[center_35%]' : 'object-cover object-top'}`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     </div>
