@@ -22,12 +22,13 @@ export function MainMenu() {
     ];
 
     const socialItems = [
-        { label: "WhatsApp", link: "https://wa.me/32488888888" },
-        { label: "Email", link: "mailto:contact@ryzq.digital" },
+        { label: "WhatsApp", link: "https://wa.me/32470886024" },
+        { label: "Email", link: "mailto:hello@ryzq.dev" },
     ];
 
     // When menu is closed: white in dark mode, black in light mode
-    const buttonColor = mounted && theme === 'dark' ? '#ffffff' : '#000000';
+    // Default to white (dark mode default) when not yet mounted to avoid flash
+    const buttonColor = !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000');
     // When menu is open: always black since the panel background is white
     const openButtonColor = '#000000';
 
